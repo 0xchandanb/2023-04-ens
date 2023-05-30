@@ -29,7 +29,7 @@ if (process.env.DEPLOYER_KEY) {
 }
 
 // circular dependency shared with actions
-export const archivedDeploymentPath = './deployments/archive'
+// export const archivedDeploymentPath = './deployments/archive'
 
 const config: HardhatUserConfig = {
   networks: {
@@ -120,7 +120,7 @@ const config: HardhatUserConfig = {
   external: {
     contracts: [
       {
-        artifacts: [archivedDeploymentPath],
+        artifacts: ["./deployments/archive"],
       },
     ],
   },
