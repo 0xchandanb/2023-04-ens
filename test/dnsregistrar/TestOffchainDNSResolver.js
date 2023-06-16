@@ -213,7 +213,7 @@ contract('OffchainDNSResolver', function (accounts) {
     ).to.equal(testAddress)
   })
 
-  it.only('rejects calls to resolveCallback() with an invalid TXT record', async function () {
+  it('rejects calls to resolveCallback() with an invalid TXT record', async function () {
     const name = 'test.test'
     const testAddress = '0xfefeFEFeFEFEFEFEFeFefefefefeFEfEfefefEfe'
     await ownedResolver.setAddr(namehash.hash(name), testAddress)
@@ -221,10 +221,10 @@ contract('OffchainDNSResolver', function (accounts) {
     const callData = pr.contract.methods['addr(bytes32)'](
       namehash.hash(name),
     ).encodeABI()
-    // await expect(
-    //   doResolveCallback(name, ['nonsense'], callData),
-    // ).to.be.revertedWith('CouldNotResolve')
-    await doResolveCallback(name, ['nonsense'], callData)
+    await expect(
+      doResolveCallback(name, ['nonsense'], callData),
+    ).to.be.revertedWith('CouldNotResolve')
+    // await doResolveCallback(name, ['nonsense'], callData)
   })
 
   it('handles calls to resolveCallback() where the valid TXT record is not the first', async function () {
