@@ -25,7 +25,7 @@ contract('ERC20Recoverable', function (accounts) {
       expect(balanceAfter.toNumber()).to.equal(0)
     })
 
-    it('should not allow non-owner to call', async () => {
+    it.only('should not allow non-owner to call', async () => {
       const signers = await ethers.getSigners()
       await ERC20Token.transfer(ERC20Recoverable.address, 1000)
       const balance = await ERC20Token.balanceOf(ERC20Recoverable.address)

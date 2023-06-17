@@ -298,7 +298,7 @@ contract('DNSRegistrar', function (accounts) {
     await root.setController(registrar.address, true)
   })
 
-  it.only('cannot claim multiple names using single unrelated proof', async function () {
+  it('cannot claim multiple names using single unrelated proof', async function () {
     const alice = accounts[1]
 
     // Build sample proof for a DNS record with name `poc.test` that alice owns
@@ -318,16 +318,12 @@ contract('DNSRegistrar', function (accounts) {
 
     // Now using the same proof for `alice.test`, alice can also claim `foo.test`. Without a proof involving `foo.test`
     assert.equal(await ens.owner(namehash.hash('foo.test')), ZERO_ADDRESS)
-    // await expect(
-    //   registrar.proveAndClaim(
-    //     utils.hexEncodeName('foo.test'),
-    //     proofForAliceDotTest,
-    //   ),
-    // ).to.be.revertedWith('NoOwnerRecordFound')
-    await registrar.proveAndClaim(
+    await expect(
+      registrar.proveAndClaim(
         utils.hexEncodeName('foo.test'),
         proofForAliceDotTest,
-      );
+      ),
+    ).to.be.revertedWith('NoOwnerRecordFound')
     assert.equal(await ens.owner(namehash.hash('foo.test')), ZERO_ADDRESS)
   })
 
